@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register - Skinfinity</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="bg" style="background-image:url('{{ url_for('static', filename='assets/cover.jpg') }}')">
+
+  <div class="glass">
+
+    <h1 class="title">Create Account</h1>
+    <p class="subtitle">Join Skinfinity today ✨</p>
+
+    <div class="toggle">
+      <button onclick="location.href='/'">Sign In</button>
+      <button class="active">Create Account</button>
+    </div>
+
+    <form action="/register_user" method="POST">
+
+
+<div class="input-box">
+  <input type="text" name="name" required placeholder=" ">
+  <label>Name</label>
+</div>
+
+<div class="input-box">
+  <input type="email" name="email" required placeholder=" " autocomplete="off">
+  <label>Email</label>
+</div>
+
+<div class="input-box">
+  <input id="regpass" type="password" name="password" required placeholder=" " autocomplete="new-password">
+  <label>Password</label>
+  <span class="eye" onclick="togglePassword('regpass')">👁️</span>
+</div>
+      <button class="main-btn">Create Account</button>
+
+    </form>
+
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

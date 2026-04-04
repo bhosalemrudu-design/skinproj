@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2 style="text-align:center;">Upload or Capture Image</h2>
+
+<div style="text-align:center;">
+
+<video id="camera" width="300" autoplay></video>
+<br><br>
+
+<button onclick="startCamera()">Start Camera</button>
+<button onclick="captureImage()">Capture</button>
+
+<br><br>
+
+<input type="file" onchange="uploadImage(this)">
+
+</div>
+
+<div id="resultBox" style="text-align:center;margin-top:20px;"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

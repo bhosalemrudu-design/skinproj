@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  background: #fff;
+}
+
+.nav-left {
+  font-weight: 600;
+  font-size: 22px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 60px; /* Space between logo and menu items */
+}
+
+.nav-left .menu {
+  display: flex;
+  gap: 30px; /* Even space between menu items */
+}
+
+.nav-left .menu a {
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.nav-left .menu a:hover {
+  color: #ff4da6;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #000;
+}
+
+.logout-icon {
+  font-size: 22px;
+  cursor: pointer;
+  color: #000;
+}
+
+/* Hero */
+.top {
+  background: url("/static/assets/d1.jpg") no-repeat center center;
+  background-size: cover;
+  position: relative;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 30px;
+}
+
+.top::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(255,255,255,0.2);
+}
+
+.top-content {
+  position: relative;
+  z-index: 1;
+  max-width: 650px;
+  color: #000;
+}
+
+.top-content h1 {
+  font-size: 40px;
+  margin-bottom: 15px;
+}
+
+.top-content p {
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.analyze-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #ff4da6, #ff1a8c);
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.analyze-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Bottom */
+.bottom {
+  padding: 20px;
+}
+
+/* Recent Analyses Header */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.history-header h2 {
+  font-weight: 400;
+  color: #333;
+}
+
+.view-all-btn {
+  color: #ff4da6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* History Grid */
+.history-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.history-card {
+  flex: 1 1 calc(33% - 15px);
+  background: #fff;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  font-size: 14px;
+  position: relative;
+}
+
+.skin-type {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ff4da6;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.date {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 13px;
+}
+
+.score {
+  font-size: 28px;
+  color: #000;
+  margin: 25px 0 10px 0;
+  font-weight: 400;
+}
+
+.profile-text {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #333;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  width: 300px;
+}
+
+.popup-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.yes-btn {
+  background: #ff4da6;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.no-btn {
+  background: #ccc;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Feedback Chatbot */
+#feedbackButton button {
+  background:#ff4da6;color:#fff;border:none;border-radius:50px;padding:12px 20px;
+  cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.2);font-weight:600;
+}
+
+#feedbackPopup {
+  display:none;
+  position:fixed;
+  bottom:80px;
+  right:20px;
+  width:300px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.3);
+  z-index:1001;
+}
+
+#feedbackPopup h3 {margin-bottom:10px;color:#ff4da6;}
+#stars {margin-bottom:15px;}
+#stars .star {font-size:24px;cursor:pointer;transition:0.2s;margin-right:3px;}
+
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+  <div class="nav-left">
+    💖 Skinfinity
+    <nav class="menu">
+      <a href="/dashboard">Home</a>
+      <a href="/analyze_page">Analyze</a>
+      <a href="/all_history">History</a>
+      <a href="#" onclick="openFeedback()">Feedback</a>
+    </nav>
+  </div>
+  <div class="nav-right">
+    <div>{{ user }}</div>
+    <div class="logout-icon" onclick="confirmLogout()">↪</div>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="top">
+  <div class="top-content">
+    <h1>Hello {{ user }} </h1>
+    <p>Your skin is constantly evolving. Let's see what it needs today ✨</p>
+    <form action="/analyze_page">
+      <button class="analyze-btn">
+        Analyze Skin ➔
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Bottom -->
+<div class="bottom">
+  <div class="history-header">
+    <h2>Recent Analyses</h2>
+    <a href="/all_history" class="view-all-btn">View All</a>
+  </div>
+  <div class="history-grid" id="historyContainer"></div>
+</div>
+
+<!-- Logout Popup -->
+<div id="logoutPopup" class="popup">
+  <div class="popup-box">
+    <h3>Are you sure?</h3>
+    <p>You will be logged out.</p>
+    <div class="popup-buttons">
+      <button onclick="logoutNow()" class="yes-btn">Yes</button>
+      <button onclick="closePopup()" class="no-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Feedback Chatbot Button -->
+<div id="feedbackButton" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+  <button onclick="openFeedback()">💬</button>
+</div>
+
+<!-- Feedback Chatbot Popup -->
+<div id="feedbackPopup">
+  <div style="padding:20px;">
+    <h3>We value your feedback!</h3>
+    <div id="stars">
+      <span class="star" data-value="1">☆</span>
+      <span class="star" data-value="2">☆</span>
+      <span class="star" data-value="3">☆</span>
+      <span class="star" data-value="4">☆</span>
+      <span class="star" data-value="5">☆</span>
+    </div>
+    <textarea id="feedbackText" placeholder="Type your feedback..." style="width:100%;padding:8px;border:1px solid #ccc;border-radius:8px;resize:none;"></textarea>
+    <div style="margin-top:15px;display:flex;justify-content:space-between;">
+      <button onclick="submitFeedback()" style="background:#ff4da6;color:#fff;border:none;padding:8px 15px;border-radius:8px;cursor:pointer;">Submit</button>
+      <button onclick="closeFeedback()" style="background:#ccc;color:#000;border:none;padding:8px 15px;border-radius:8px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Navbar Logout
+function confirmLogout() { document.getElementById("logoutPopup").style.display = "flex"; }
+function closePopup() { document.getElementById("logoutPopup").style.display = "none"; }
+function logoutNow() { window.location.href = "/logout"; }
+
+// Fetch History
+fetch("/history")
+.then(res => res.json())
+.then(data => {
+  const container = document.getElementById("historyContainer");
+  container.innerHTML = '';
+  if(data.length === 0){
+    container.innerHTML = "<p>No history found</p>";
+  } else {
+    data.reverse().slice(0,6).forEach(item => {
+      const card = document.createElement("div");
+      card.className = "history-card";
+      card.innerHTML = `
+        <div class="skin-type">${item.type}</div>
+        <div class="date">📅 ${item.time}</div>
+        <div class="score">Score: ${item.score}</div>
+        <div class="profile-text">${item.profile}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+});
+
+// Feedback Chatbot
+function openFeedback() { document.getElementById("feedbackPopup").style.display = "block"; }
+function closeFeedback() { document.getElementById("feedbackPopup").style.display = "none"; }
+
+let selectedRating = 0;
+const stars = document.querySelectorAll("#stars .star");
+
+stars.forEach(star => {
+  star.addEventListener("mouseover", () => highlightStars(star.dataset.value));
+  star.addEventListener("mouseout", () => highlightStars(selectedRating));
+  star.addEventListener("click", () => {
+    selectedRating = star.dataset.value;
+    highlightStars(selectedRating);
+  });
+});
+
+function highlightStars(rating){
+  stars.forEach(star => {
+    if(star.dataset.value <= rating){
+      star.textContent = "★";
+      star.style.color = "#ff4da6";
+    } else {
+      star.textContent = "☆";
+      star.style.color = "#ccc";
+    }
+  });
+}
+
+function submitFeedback(){
+  const comment = document.getElementById("feedbackText").value;
+  if(selectedRating == 0){
+    alert("Please select a star rating!");
+    return;
+  }
+  console.log("Rating:", selectedRating, "Comment:", comment);
+  alert("Thank you for your feedback!");
+  document.getElementById("feedbackText").value = "";
+  selectedRating = 0;
+  highlightStars(0);
+  closeFeedback();
+}
+</script>
+
+</body>
+</html>

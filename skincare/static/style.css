@@ -1,0 +1,169 @@
+/* ===== GLOBAL ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  /* 🔥 DARK BACKGROUND */
+  background: linear-gradient(135deg, #1a1a1a, #000);
+  color: #fff;
+  padding-top: 70px; /* To make space for navbar */
+}
+
+/* ===== NAVBAR (GLASS EFFECT) ===== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  z-index: 1000;
+}
+
+/* ===== CONTAINER ===== */
+
+.container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+/* ===== CARD (GLASS EFFECT) ===== */
+
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+
+  /* ✨ DEPTH */
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* ===== TEXT ===== */
+
+.title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+/* ===== BUTTONS ===== */
+
+.options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.btn:hover {
+  transform: scale(1.07);
+}
+
+/* 🔥 GRADIENT BUTTONS */
+
+.primary {
+  background: linear-gradient(135deg, #ff4da6, #ff1a8c);
+}
+
+.secondary {
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.capture {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #00c9ff, #92fe9d);
+  color: #000;
+}
+
+/* ===== CAMERA ===== */
+
+video {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 10px;
+  border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* ===== UPLOAD ===== */
+
+.upload-box {
+  display: block;
+  padding: 20px;
+  border: 2px dashed rgba(255,255,255,0.3);
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.upload-box:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: #ff4da6;
+}
+
+.upload-box input {
+  display: none;
+}
+
+/* ===== RESULT ===== */
+
+.result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 15px;
+
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+
+  text-align: left;
+}
+
+/* ===== HIDDEN ===== */
+
+.hidden {
+  display: none;
+}

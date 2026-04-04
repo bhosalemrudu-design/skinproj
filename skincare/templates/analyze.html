@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skinfinity | Analyze</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#FFE4EC;min-height:100vh;display:flex;flex-direction:column;align-items:center;color:#333;padding:20px}
+.header{text-align:center;margin-top:20px}
+h1{font-size:3em;font-weight:700;margin-bottom:10px}
+p{font-size:1.2em;margin-bottom:30px;color:#555}
+.buttons{display:flex;gap:15px;margin-bottom:20px}
+.btn{padding:12px 25px;border:none;border-radius:10px;cursor:pointer;font-size:1em;display:inline-flex;align-items:center;gap:8px;justify-content:center;transition:.3s}
+.primary{background:#FF85A2;color:#fff}
+.secondary{background:#FFB6C1;color:#fff}
+.btn:hover{opacity:.9}
+#cameraSection,#uploadSection,#scanBox{display:flex;flex-direction:column;align-items:center}
+video,img{width:80%;max-width:600px;border-radius:15px;margin-top:20px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.upload-box{border:2px dashed #FFB6C1;padding:20px;border-radius:15px;cursor:pointer;display:inline-block;margin-top:20px;color:#555}
+#errorMsg{color:red;margin-top:10px;font-size:.9em}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>✨ Skin Analysis</h1>
+<p>Take a clear photo of your face without makeup in good lighting for the most accurate results.</p>
+</div>
+
+<div class="buttons">
+<button class="btn primary" onclick="openCamera()">📷 Camera</button>
+<button class="btn secondary" onclick="openUpload()">📁 Upload</button>
+</div>
+
+<div id="errorMsg"></div>
+
+<!-- Camera section -->
+<div id="cameraSection" style="display:none;">
+<video id="camera" autoplay playsinline></video>
+<button class="btn primary" style="margin-top:15px;" onclick="captureImage()">📸 Capture</button>
+</div>
+
+<!-- Upload section -->
+<div id="uploadSection" style="display:none;">
+<label class="upload-box">
+Upload Image
+<input type="file" hidden accept="image/*" onchange="uploadImage(this)">
+</label>
+</div>
+
+<!-- Hidden form to send image to Flask -->
+<form id="analyzeForm" action="{{ url_for('analyze') }}" method="POST" enctype="multipart/form-data" style="display:none;">
+<input type="file" name="image" id="hiddenInput">
+</form>
+
+<!-- Scanning box -->
+<div id="scanBox" style="display:none;margin-top:20px;">
+<h2>Scanning your skin...</h2>
+<p>Please wait while we analyze your skin.</p>
+</div>
+
+<script>
+let cameraStream;
+
+function showError(msg){document.getElementById('errorMsg').textContent=msg;}
+function clearError(){document.getElementById('errorMsg').textContent='';}
+
+function openCamera(){
+    clearError();
+    document.getElementById('cameraSection').style.display='flex';
+    document.getElementById('uploadSection').style.display='none';
+    document.getElementById('scanBox').style.display='none';
+    navigator.mediaDevices.getUserMedia({
+        video:{width:{ideal:1920}, height:{ideal:1080}, facingMode:"user"},
+        audio:false
+    }).then(stream => {
+        cameraStream = stream;
+        document.getElementById('camera').srcObject = stream;
+    }).catch(err => showError('Unable to access camera. Please allow camera permissions.'));
+}
+
+function captureImage(){
+    const video = document.getElementById('camera');
+    if(!video.srcObject){showError('Camera not started.'); return;}
+
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+
+    canvas.toBlob(function(blob){
+        const file = new File([blob], "capture.png", {type:"image/png"});
+        const input = document.getElementById('hiddenInput');
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        input.files = dataTransfer.files;
+
+        startScanning();
+        document.getElementById('analyzeForm').submit();
+    }, "image/png");
+
+    if(cameraStream) cameraStream.getTracks().forEach(track=>track.stop());
+    document.getElementById('cameraSection').style.display='none';
+}
+
+function openUpload(){
+    clearError();
+    document.getElementById('uploadSection').style.display='flex';
+    document.getElementById('cameraSection').style.display='none';
+    document.getElementById('scanBox').style.display='none';
+}
+
+function uploadImage(input){
+    clearError();
+    if(input.files && input.files[0]){
+        const hiddenInput = document.getElementById('hiddenInput');
+        hiddenInput.files = input.files;
+
+        startScanning();
+        document.getElementById('analyzeForm').submit();
+    } else showError('No file selected.');
+}
+
+function startScanning(){
+    document.getElementById('scanBox').style.display='flex';
+}
+</script>
+
+</body>
+</html>

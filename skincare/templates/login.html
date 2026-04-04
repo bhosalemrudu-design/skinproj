@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login / Register</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url("/static/bg1.jpg") no-repeat center/cover;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .box {
+      position: relative;
+      z-index: 1;
+      width: 360px;
+      padding: 30px;
+      border-radius: 18px;
+      backdrop-filter: blur(15px);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .toggle {
+      display: flex;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .toggle button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    .toggle .active {
+      background: #ff4da6;
+    }
+
+    form {
+      display: none;
+    }
+
+    form.active {
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box span {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .login-btn {
+      background: #ff4da6;
+      color: #fff;
+    }
+
+    .register-btn {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <h2>SkinCare AI</h2>
+
+  <!-- Toggle -->
+  <div class="toggle">
+    <button id="loginTab" class="active" onclick="showLogin()">Login</button>
+    <button id="registerTab" onclick="showRegister()">Create Account</button>
+  </div>
+
+  <!-- LOGIN -->
+  <form id="loginForm" class="active" method="POST" action="/login_user">
+
+    <!-- ✅ FIXED NAME -->
+    <input type="text" name="name" placeholder="name" required>
+
+    <div class="password-box">
+      <input type="password" id="loginPassword" name="password" placeholder="Password" required>
+      <span onclick="togglePassword('loginPassword', this)">👁️</span>
+    </div>
+
+    <button class="login-btn" type="submit">Login</button>
+  </form>
+
+  <!-- REGISTER -->
+  <form id="registerForm" method="POST" action="/register">
+
+    <input type="text" name="name" placeholder="Username" required>
+    <input type="email" name="email" placeholder="Email" required>
+
+    <div class="password-box">
+      <input type="password" id="regPassword" name="password" placeholder="Password" required>
+      <span onclick="togglePassword('regPassword', this)">👁️</span>
+    </div>
+
+    <div class="password-box">
+      <input type="password" id="regConfirm" name="confirm_password" placeholder="Confirm Password" required>
+      <span onclick="togglePassword('regConfirm', this)">👁️</span>
+    </div>
+
+    <button class="register-btn" type="submit">Create Account</button>
+  </form>
+
+</div>
+
+<script>
+function showLogin() {
+  document.getElementById("loginForm").classList.add("active");
+  document.getElementById("registerForm").classList.remove("active");
+
+  document.getElementById("loginTab").classList.add("active");
+  document.getElementById("registerTab").classList.remove("active");
+}
+
+function showRegister() {
+  document.getElementById("registerForm").classList.add("active");
+  document.getElementById("loginForm").classList.remove("active");
+
+  document.getElementById("registerTab").classList.add("active");
+  document.getElementById("loginTab").classList.remove("active");
+}
+
+function togglePassword(fieldId, icon) {
+  const input = document.getElementById(fieldId);
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.textContent = "🙈";
+  } else {
+    input.type = "password";
+    icon.textContent = "👁️";
+  }
+}
+</script>
+
+</body>
+</html>
