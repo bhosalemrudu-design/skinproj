@@ -2,5 +2,5 @@ services:
   - type: web
     name: skincare-app
     runtime: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    buildCommand: "pip install -r skincare/requirements.txt"
+    startCommand: "gunicorn skincare.app:app"
